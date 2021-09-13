@@ -26,7 +26,8 @@ connection.connect((err) => {
 })
 // inquirer search function
 function search () {
-    inquirer.prompt({
+    inquirer
+        .prompt({
             name: "action",
             type: "list",
             message: "What would you like to do?",
@@ -68,7 +69,8 @@ function search () {
 
                 // add employee + input
                 case "Add employee":
-                    inquirer.prompt([
+                    inquirer
+                        .prompt([
                         {
                             name: "employeeFirst",
                             type: "input",
@@ -223,19 +225,19 @@ function search () {
     };
 
 function sortEmployees() {
-    var results = connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.d_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.d_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
         
 
     function (error, results) {
         if (error) throw error
         console.table(results)
     })
-    console.log(error);
+   
 };
 
 function sortDepartment() {
 
-var department = connection.query(
+connection.query(
     "SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
 
 
@@ -247,7 +249,7 @@ var department = connection.query(
 
 function sortManager() {
 
-var manager = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
+connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
 
 
     function (error, manager) {
@@ -259,7 +261,7 @@ var manager = connection.query("SELECT employee.id, employee.first_name, employe
 
 function updateSortManager(managerId, employeeId) {
 
-var updateManager = connection.query(
+connection.query(
     "UPDATE employee SET manager_id = ? WHERE id = ?",
     [managerId, employeeId],
     function (error, updateManager) {
@@ -272,7 +274,7 @@ sortManager();
 
 function addEmployee(employeeFirst, employeeLast, department, manager) {
 
-var add = connection.query(
+connection.query(
     "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
     [employeeFirst, employeeLast, department, manager],
     function (error, add) {
@@ -283,7 +285,7 @@ sortEmployees();
 }
 
 function departmentTable() {
-var depTable = connection.query("SELECT d_name FROM department;",
+connection.query("SELECT d_name FROM department;",
 
 
     function (error, depTable) {
@@ -294,7 +296,7 @@ var depTable = connection.query("SELECT d_name FROM department;",
 
 function addDepartment(department) {
 
-var department = connection.query(
+connection.query(
     "INSERT INTO department SET d_name = ?",
     [department],
     function (error, department) {
@@ -305,7 +307,7 @@ departmentTable();
 }
 
 function roleTable() {
-var rTable = connection.query("SELECT title, salary, department_id FROM role;",
+connection.query("SELECT title, salary, department_id FROM role;",
 
     function (error, rTable) {
         if (error) throw error
@@ -315,7 +317,7 @@ var rTable = connection.query("SELECT title, salary, department_id FROM role;",
 
 function addRole(title, salary, department_id) {
 
-var newRole = connection.query(
+connection.query(
     "INSERT INTO role SET title = ?, salary = ?, department_id = ?",
     [title, salary, department_id],
     function (error, newRole) {
@@ -325,21 +327,10 @@ var newRole = connection.query(
 roleTable();
 }
 
-function removeEmployee(id) {
-
-var add = connection.query(
-    "DELETE FROM employee WHERE id = ?",
-    [id],
-    function (error, id) {
-        if (error) throw error
-    })
-
-sortEmployees();
-}
 
 function updateSortRole(employeeId, roleId) {
 
-var sortRole = connection.query(
+connection.query(
     "UPDATE employee SET role_id = ? WHERE id = ?",
 
     [roleId, employeeId],
