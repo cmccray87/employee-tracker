@@ -1,7 +1,7 @@
 use employees;
 
 INSERT INTO department
-    (d_name)
+    (department_name)
 VALUES
     ('Sales'),
     ('VDC'),

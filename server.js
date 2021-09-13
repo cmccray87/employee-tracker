@@ -225,10 +225,10 @@ function search () {
     };
 
 function sortEmployees() {
-    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.d_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
         
 
-    function (error, results) {
+    (error, results) => {
         if (error) throw error
         console.table(results)
     })
@@ -238,7 +238,7 @@ function sortEmployees() {
 function sortDepartment() {
 
 connection.query(
-    "SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
+    "SELECT employee.id, employee.first_name, employee.last_name, department.department_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
 
 
     function (error, department) {
@@ -249,10 +249,10 @@ connection.query(
 
 function sortManager() {
 
-connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
+connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.department_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
 
 
-    function (error, manager) {
+     (error, manager) => {
         if (error) throw error
         console.table(manager)
     })
@@ -264,7 +264,7 @@ function updateSortManager(managerId, employeeId) {
 connection.query(
     "UPDATE employee SET manager_id = ? WHERE id = ?",
     [managerId, employeeId],
-    function (error, updateManager) {
+    (error, updateManager) => {
         if (error) throw error
     })
 
@@ -277,27 +277,27 @@ function addEmployee(employeeFirst, employeeLast, department, manager) {
 connection.query(
     "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
     [employeeFirst, employeeLast, department, manager],
-    function (error, add) {
+     (error, add) => {
         if (error) throw error
     })
 
 sortEmployees();
 }
 
-function departmentTable() {
-connection.query("SELECT d_name FROM department;",
+function Table() {
+connection.query("SELECT department_name FROM ;",
 
 
-    function (error, depTable) {
+    (error, depTable) => {
         if (error) throw error
         console.table(depTable)
     })
 }
 
-function addDepartment(department) {
+function add(department) {
 
 connection.query(
-    "INSERT INTO department SET d_name = ?",
+    "INSERT INTO department SET department_name = ?",
     [department],
     function (error, department) {
         if (error) throw error
@@ -320,7 +320,7 @@ function addRole(title, salary, department_id) {
 connection.query(
     "INSERT INTO role SET title = ?, salary = ?, department_id = ?",
     [title, salary, department_id],
-    function (error, newRole) {
+    (error, newRole) => {
         if (error) throw error
     })
 
@@ -334,7 +334,7 @@ connection.query(
     "UPDATE employee SET role_id = ? WHERE id = ?",
 
     [roleId, employeeId],
-    function (error, role) {
+    (error, role) => {
         if (error) throw error
 
     })
