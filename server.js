@@ -164,7 +164,7 @@ function search () {
                             }
                         ]).then(answers => {
                             removeEmployee(answers.id);
-                            Search();
+                            search();
                         })
                     break;
 
@@ -224,18 +224,19 @@ function search () {
 
 function sortEmployees() {
     var results = connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.d_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
-
+        
 
     function (error, results) {
         if (error) throw error
         console.table(results)
     })
-
+    console.log(error);
 };
 
 function sortDepartment() {
 
-var department = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
+var department = connection.query(
+    "SELECT employee.id, employee.first_name, employee.last_name, department.d_name FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id;",
 
 
     function (error, department) {
@@ -244,7 +245,7 @@ var department = connection.query("SELECT employee.id, employee.first_name, empl
     })
 };
 
-function byManager() {
+function sortManager() {
 
 var manager = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
 
@@ -265,7 +266,7 @@ var updateManager = connection.query(
         if (error) throw error
     })
 
-byManager();
+sortManager();
 
 }
 
@@ -278,7 +279,7 @@ var add = connection.query(
         if (error) throw error
     })
 
-byEmployees();
+sortEmployees();
 }
 
 function departmentTable() {
@@ -304,11 +305,11 @@ departmentTable();
 }
 
 function roleTable() {
-var roleT = connection.query("SELECT title, salary, department_id FROM role;",
+var rTable = connection.query("SELECT title, salary, department_id FROM role;",
 
-    function (error, roleT) {
+    function (error, rTable) {
         if (error) throw error
-        console.table(roleT)
+        console.table(rTable)
     })
 }
 
@@ -333,12 +334,12 @@ var add = connection.query(
         if (error) throw error
     })
 
-byEmployees();
+sortEmployees();
 }
 
 function updateSortRole(employeeId, roleId) {
 
-var byRole = connection.query(
+var sortRole = connection.query(
     "UPDATE employee SET role_id = ? WHERE id = ?",
 
     [roleId, employeeId],
