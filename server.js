@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const cTable = require('console.table');
 const mysql = require("mysql2");
+const cTable = require('console.table');
 const util = require("util");
 
 
@@ -17,8 +17,8 @@ connection.connect((err) => {
     if (err) {
         console.log(err);
         res.status(500);
-        return res.send("There was an error connecting to the database.");
-    } console.log("You're connected!");
+        return res.send("error connecting to database");
+    } console.log("Connected");
 
     // Function for inquirer to prompt data
     search();
