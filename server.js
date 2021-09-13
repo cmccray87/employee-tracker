@@ -228,7 +228,7 @@ function sortEmployees() {
     connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;",
         
 
-    (error, results) => {
+    function (error, results) {
         if (error) throw error
         console.table(results)
     })
@@ -252,7 +252,7 @@ function sortManager() {
 connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.department_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id;",
 
 
-     (error, manager) => {
+     function (error, manager) {
         if (error) throw error
         console.table(manager)
     })
@@ -261,10 +261,9 @@ connection.query("SELECT employee.id, employee.first_name, employee.last_name, d
 
 function updateSortManager(managerId, employeeId) {
 
-connection.query(
-    "UPDATE employee SET manager_id = ? WHERE id = ?",
+connection.query("UPDATE employee SET manager_id = ? WHERE id = ?",
     [managerId, employeeId],
-    (error, updateManager) => {
+    function (error, updateManager) {
         if (error) throw error
     })
 
@@ -274,10 +273,9 @@ sortManager();
 
 function addEmployee(employeeFirst, employeeLast, department, manager) {
 
-connection.query(
-    "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
+connection.query("INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
     [employeeFirst, employeeLast, department, manager],
-     (error, add) => {
+     function (error, add) {
         if (error) throw error
     })
 
@@ -288,7 +286,7 @@ function Table() {
 connection.query("SELECT department_name FROM ;",
 
 
-    (error, depTable) => {
+    function (error, depTable) {
         if (error) throw error
         console.table(depTable)
     })
@@ -320,7 +318,7 @@ function addRole(title, salary, department_id) {
 connection.query(
     "INSERT INTO role SET title = ?, salary = ?, department_id = ?",
     [title, salary, department_id],
-    (error, newRole) => {
+    function (error, newRole) {
         if (error) throw error
     })
 
@@ -334,7 +332,7 @@ connection.query(
     "UPDATE employee SET role_id = ? WHERE id = ?",
 
     [roleId, employeeId],
-    (error, role) => {
+    function (error, role) {
         if (error) throw error
 
     })
