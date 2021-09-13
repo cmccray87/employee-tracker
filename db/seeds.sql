@@ -1,12 +1,33 @@
-INSERT INTO candidates (first_name, last_name, industry_connected)
+use employees;
+
+INSERT INTO department
+    (d_name)
 VALUES
-  ('Ronald', 'Firbank', 1),
-  ('Virginia', 'Woolf', 1),
-  ('Piers', 'Gaveston', 0),
-  ('Charles', 'LeRoi', 1),
-  ('Katherine', 'Mansfield', 1),
-  ('Dora', 'Carrington', 0),
-  ('Edward', 'Bellamy', 0),
-  ('Montague', 'Summers', 1),
-  ('Octavia', 'Butler', 1),
-  ('Unica', 'Zurn', 1);
+    ('Sales'),
+    ('VDC'),
+    ('IT'),
+    ('Accounting');
+
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ('Sales Lead', 150000, 1),
+    ('Salesperson', 100000, 1),
+    ('Senior Detailer', 100000, 2),
+    ('Detailing Manager', 120000, 2),
+    ('IT Manager', 160000, 3),
+    ('IT Engineer', 125000, 3),
+    ('CFO', 250000, 4),
+    ('Accountant', 90000, 4);
+
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ('Randall', 'Flagg', 1, NULL),
+    ('Eddie', 'Dean', 2, 1),
+    ('Cuthbert', 'Allgood', 3, NULL),
+    ('Roland', 'Deschain', 4, 3),
+    ('Alain', 'Johns', 5, NULL),
+    ('Susannah', 'Dean', 6, 5),
+    ('Mordred', 'Deschain', 7, NULL),
+    ('Jake', 'Chambers', 8, 7);
